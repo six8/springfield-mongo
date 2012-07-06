@@ -3,8 +3,8 @@ from distutils.core import setup
 def main():
     setup(
         name = 'springfield-mongo',
-        packages=['springfield-mongo'],
-        package_dir = {'springfield-mongo':'springfield-mongo'},
+        packages=['springfield_mongo'],
+        package_dir = {'springfield_mongo':'springfield_mongo'},
         version = open('VERSION.txt').read().strip(),
         author='Mike Thornton',
         author_email='six8@devdetails.com',
