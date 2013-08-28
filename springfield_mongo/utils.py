@@ -1,4 +1,4 @@
-from springfield import Entity
+from springfield import Entity, FlexEntity
 
 
 def entity_from_mongo(cls, values):
@@ -28,17 +28,20 @@ def entity_to_mongo(entity):
     Convert an Entity type into a structure able to be stored in Mongo.
     """
     data = {}
-    for key, val in entity.__values__.iteritems():
-        field = entity.__fields__[key]
+    if isinstance(entity, FlexEntity):
+        data = entity.flatten()
+    else:
+        for key, val in entity.__values__.iteritems():
+            field = entity.__fields__[key]
 
-        if isinstance(val, Entity):
-            val = entity_to_mongo(val)
-        else:
-            val = field.flatten(val)
+            if isinstance(val, Entity):
+                val = entity_to_mongo(val)
+            else:
+                val = field.flatten(val)
 
-        if key == 'id':
-            key = '_id'
+            if key == 'id':
+                key = '_id'
 
-        data[key] = val
+            data[key] = val
 
     return data
