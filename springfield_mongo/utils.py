@@ -1,11 +1,11 @@
 from springfield import Entity
 
 
-def entity_from_mongo(kls, values):
+def entity_from_mongo(cls, values):
     """
-    Construct an Entity of type `kls` from a Mongo document.
+    Construct an Entity of type `cls` from a Mongo document.
     """
-    entity = kls()
+    entity = cls()
     if hasattr(values, '__values__'):
         for key, val in values.__values__.items():
             if key == '_id':
