@@ -9,7 +9,7 @@ def main():
         author='Mike Thornton',
         author_email='six8@devdetails.com',
         url='',
-        download_url='',        
+        download_url='',
         keywords=['packaging'],
         license='MIT',
         description='',
