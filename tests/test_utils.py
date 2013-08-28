@@ -1,12 +1,14 @@
-from springfield_mongo.entities import Entity as MongoEntity
 from springfield_mongo import utils
+from springfield_mongo.fields import ObjectIdField
 from springfield import fields
+from springfield import Entity
 from bson.objectid import ObjectId
 
 
 # This dummy class just used to have an extra attribute to verify during
 # using the utils
-class FooEntity(MongoEntity):
+class FooEntity(Entity):
+    id = ObjectIdField()
     foo = fields.StringField()
 
 
