@@ -1,7 +1,7 @@
 from springfield_mongo import utils
 from springfield_mongo.fields import ObjectIdField
 from springfield import fields
-from springfield import Entity
+from springfield import Entity, FlexEntity
 from bson.objectid import ObjectId
 
 
@@ -10,6 +10,11 @@ from bson.objectid import ObjectId
 class FooEntity(Entity):
     id = ObjectIdField()
     foo = fields.StringField()
+
+
+class FlexFooEntity(FlexEntity):
+    foo = fields.StringField()
+    bar = fields.EntityField(FlexEntity)
 
 
 def test_entity_to_mongo():
@@ -51,3 +56,20 @@ def test_to_and_from_equality():
     assert m == entity
     mongo_document2 = utils.entity_to_mongo(entity)
     assert mongo_document2 == mongo_document
+
+
+def test_flex_entity_field():
+    f = FlexFooEntity()
+    f.foo = 'spider'
+    f.bar = dict(monkey='gorilla')
+
+    mongo_document = utils.entity_to_mongo(f)
+    assert 'foo' in mongo_document
+    assert 'bar' in mongo_document
+    assert isinstance(mongo_document['bar'], dict)
+
+    entity = utils.entity_from_mongo(FlexFooEntity, mongo_document)
+    assert entity.foo == 'spider'
+    assert hasattr(entity.bar, 'monkey')
+
+
